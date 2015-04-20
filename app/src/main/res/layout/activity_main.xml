@@ -5,23 +5,6 @@
     android:clickable="true"
     android:background="#ffe5e9ff">
 
-    <Button
-        android:id="@+id/btnOff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_OFF"
-        android:layout_marginBottom="48dp"
-        android:layout_above="@+id/sixClock"
-        android:layout_alignRight="@+id/btnOn" />
-
-    <Button
-        android:id="@+id/btnOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_ON"
-        android:layout_above="@+id/threeClock"
-        android:layout_alignRight="@+id/twelveClock" />
-
     <TextView
         android:id="@+id/txtArduino"
         android:layout_width="fill_parent"
@@ -31,72 +14,78 @@
         android:text="" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/forwardButton"
         android:id="@+id/twelveClock"
-        android:layout_marginBottom="45dp"
-        android:layout_above="@+id/btnOn"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/appSubtitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/reverseButton"
         android:id="@+id/sixClock"
-        android:layout_marginBottom="97dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/btnOn" />
+        android:layout_below="@+id/nineClock"
+        android:layout_alignLeft="@+id/twelveClock"
+        android:layout_marginTop="58dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/rightButton"
         android:id="@+id/threeClock"
-        android:layout_above="@+id/btnOff"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="37dp" />
+        android:layout_above="@+id/sixClock"
+        android:layout_alignLeft="@+id/oneClock" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/rightForwardButton"
         android:id="@+id/oneClock"
-        android:layout_above="@+id/btnOn"
-        android:layout_alignRight="@+id/threeClock" />
+        android:layout_alignTop="@+id/twelveClock"
+        android:layout_toRightOf="@+id/appTitle" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/leftButton"
         android:id="@+id/nineClock"
-        android:layout_marginRight="39dp"
-        android:layout_below="@+id/btnOn"
-        android:layout_toLeftOf="@+id/btnOff" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/elevenClock" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/leftForwardButton"
         android:id="@+id/elevenClock"
-        android:layout_above="@+id/btnOn"
-        android:layout_alignLeft="@+id/nineClock" />
+        android:layout_alignTop="@+id/twelveClock"
+        android:layout_toLeftOf="@+id/appTitle" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/leftReverseButton"
         android:id="@+id/sevenClock"
-        android:layout_above="@+id/sixClock"
-        android:layout_alignRight="@+id/elevenClock" />
+        android:layout_alignTop="@+id/sixClock"
+        android:layout_toLeftOf="@+id/appTitle" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/rounded"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:text="@string/rightReverseButton"
         android:id="@+id/fiveClock"
-        android:layout_above="@+id/sixClock"
-        android:layout_alignRight="@+id/threeClock" />
+        android:layout_alignTop="@+id/sixClock"
+        android:layout_alignLeft="@+id/threeClock" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -119,13 +108,12 @@
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New ToggleButton"
+        android:text="@string/killSwitchButton"
         android:id="@+id/killSwitch"
-        android:layout_alignTop="@+id/sixClock"
-        android:layout_toRightOf="@+id/appTitle"
-        android:layout_marginTop="45dp"
         android:checked="false"
-        android:longClickable="true" />
+        android:longClickable="true"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/twelveClock" />
 
 </RelativeLayout>
 

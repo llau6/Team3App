@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,11 +35,7 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
   private static final String TAG = "bluetooth2";
-   
-  Button btnOn, btnOff, twelveClock, oneClock, threeClock, fiveClock,
-          sixClock, sevenClock, nineClock, elevenClock;
   ToggleButton killSwitch;
-
   TextView txtArduino;
   Handler h;
    
@@ -59,23 +56,12 @@ public class MainActivity extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
- 
     setContentView(R.layout.activity_main);
-    btnOn = (Button) findViewById(R.id.btnOn);					// button LED ON
-    btnOff = (Button) findViewById(R.id.btnOff);				// button LED OFF
-    twelveClock = (Button) findViewById(R.id.twelveClock);					// button LED ON
-    oneClock = (Button) findViewById(R.id.oneClock);					// button LED ON
-    threeClock = (Button) findViewById(R.id.threeClock);					// button LED ON
-    fiveClock = (Button) findViewById(R.id.fiveClock);					// button LED ON
-    sixClock = (Button) findViewById(R.id.sixClock);					// button LED ON
-    sevenClock = (Button) findViewById(R.id.sevenClock);					// button LED ON
-    nineClock = (Button) findViewById(R.id.nineClock);					// button LED ON
-    elevenClock = (Button) findViewById(R.id.elevenClock);					// button LED ON
-    killSwitch = (ToggleButton) findViewById(R.id.killSwitch);
 
+    killSwitch = (ToggleButton) findViewById(R.id.killSwitch);
     txtArduino = (TextView) findViewById(R.id.txtArduino);		// for display the received data from the Arduino
-    
-    h = new Handler() {
+
+      h = new Handler() {
     	public void handleMessage(android.os.Message msg) {
     		switch (msg.what) {
             case RECIEVE_MESSAGE:													// if receive massage
@@ -97,82 +83,51 @@ public class MainActivity extends Activity {
     btAdapter = BluetoothAdapter.getDefaultAdapter();		// get Bluetooth adapter
     checkBTState();
 
-    twelveClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("a");
-      }
-    });
+      final java.util.Map<Button, String> map = new java.util.HashMap<Button, String>();
+      map.put((Button) findViewById(R.id.twelveClock), "a");
+      map.put((Button) findViewById(R.id.oneClock), "b");
+      map.put((Button) findViewById(R.id.threeClock), "c");
+      map.put((Button) findViewById(R.id.fiveClock), "d");
+      map.put((Button) findViewById(R.id.sixClock), "e");
+      map.put((Button) findViewById(R.id.sevenClock), "f");
+      map.put((Button) findViewById(R.id.nineClock), "g");
+      map.put((Button) findViewById(R.id.elevenClock), "h");
 
-    oneClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("b");
+      for (Button item: map.keySet()) {
+          item.setOnTouchListener(new View.OnTouchListener() {
+              public boolean onTouch(View v, MotionEvent event) {
+                  if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                      // PRESSED
+                      Button view = (Button) v;
+                      view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                      v.invalidate();
+                  } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                      // RELEASED
+                      mConnectedThread.write(map.get(v));
+                      Button view = (Button) v;
+                      view.getBackground().clearColorFilter();
+                      v.invalidate();
+                  }
+                  return false;
+              }
+          });
       }
-    });
-
-    threeClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("c");
-      }
-    });
-
-    fiveClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("d");
-      }
-    });
-
-    sixClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("e");
-      }
-    });
-
-    sevenClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-       mConnectedThread.write("f");
-      }
-    });
-
-    nineClock.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        mConnectedThread.write("g");
-      }
-    });
-
-     elevenClock.setOnClickListener(new OnClickListener() {
-       public void onClick(View v) {
-         mConnectedThread.write("h");
-       }
-     });
-
-    btnOn.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        btnOn.setEnabled(false);
-        btnOff.setEnabled(true);
-    	mConnectedThread.write("k");	// Send "1" via Bluetooth
-        //Toast.makeText(getBaseContext(), "Turn on LED", Toast.LENGTH_SHORT).show();
-      }
-    });
-
-    btnOff.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        btnOff.setEnabled(true);
-        btnOn.setEnabled(false);
-    	mConnectedThread.write("o");	// Send "0" via Bluetooth
-        //Toast.makeText(getBaseContext(), "Turn off LED", Toast.LENGTH_SHORT).show();
-      }
-    });
 
       killSwitch.setOnClickListener(new OnClickListener() {
           public void onClick (View view){
-              // Is the toggle on?
-              boolean on = ((ToggleButton) killSwitch).isChecked();
+              boolean on = (killSwitch).isChecked();
               if (on) {
                   mConnectedThread.write("k");
-                  System.out.println("on");
+                  for (Button item: map.keySet()) {
+                      item.setEnabled(false);
+                      item.getBackground().setColorFilter(0xff888888, PorterDuff.Mode.SRC_ATOP);
+                  }
               } else {
                   mConnectedThread.write("o");
-                  System.out.println("off");
+                  for (Button item : map.keySet()) {
+                      item.setEnabled(true);
+                      item.getBackground().clearColorFilter();
+                  }
               }
           }
       });
